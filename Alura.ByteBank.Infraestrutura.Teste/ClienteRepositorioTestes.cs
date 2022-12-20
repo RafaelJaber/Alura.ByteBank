@@ -33,5 +33,42 @@ namespace Alura.ByteBank.Infraestrutura.Teste
             Assert.NotNull(lista);
             Assert.NotEqual(0, lista.Count);
         }
+
+        [Fact]
+        public void TestaObterClientePorId()
+        {
+            // Arrange
+            // Act
+            Cliente cliente = _repositorio.ObterPorId(1);
+
+            // Assert
+            Assert.NotNull(cliente);
+        }
+
+        [Fact]
+        public void TestaObertClientePorGuid()
+        {
+            // Arrange
+            Cliente clienteId = _repositorio.ObterPorId(1);
+
+            // Act
+            Cliente clienteGuid = _repositorio.ObterPorGuid(clienteId.Identificador);
+
+            // Assert
+            Assert.Equal(clienteId.CPF, clienteGuid.CPF);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void TestaObterClientesPorVariosIds(int id)
+        {
+            // Arrange
+            // Act
+            var cliente = _repositorio.ObterPorId(id);
+
+            // Assert
+            Assert.NotNull(cliente);
+        }
     }
 }
