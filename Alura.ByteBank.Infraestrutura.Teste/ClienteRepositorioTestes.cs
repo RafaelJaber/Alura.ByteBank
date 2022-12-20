@@ -8,14 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Alura.ByteBank.Infraestrutura.Teste
 {
     public class ClienteRepositorioTestes
     {
         private readonly IClienteRepositorio _repositorio;
-        public ClienteRepositorioTestes()
+        public ITestOutputHelper SaidaConsoleTeste { get; set; }
+
+        public ClienteRepositorioTestes(ITestOutputHelper _saidaConsoleTeste)
         {
+            SaidaConsoleTeste = _saidaConsoleTeste;
+            SaidaConsoleTeste.WriteLine("Construtor executado com sucesso!");
+
             var servico = new ServiceCollection();
             servico.AddTransient<IClienteRepositorio, ClienteRepositorio>();
             var provedor = servico.BuildServiceProvider();
@@ -69,6 +75,12 @@ namespace Alura.ByteBank.Infraestrutura.Teste
 
             // Assert
             Assert.NotNull(cliente);
+        }
+
+        private void Dispose()
+        {
+            _repositorio.Dispose();
+            SaidaConsoleTeste.WriteLine("Teste de Agência finalizados");
         }
     }
 }
